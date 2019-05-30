@@ -6,7 +6,7 @@ const DBHelper = require('../../common/db/db-helper')
   * @return {object}
  */
 const getPlatFormList = async (params) => {
-  let platFormList = await DBHelper.getPlatFormList()
+  let platFormList = await DBHelper.getPlatFormList(params)
   return platFormList
 }
 /**
@@ -40,14 +40,52 @@ const findOnePlatForm = async (params) => {
   return result
 }
 /**
-  * 删除平台
+  * 批量添加平台
   * @method addScene
   * @param  {object} params -平台参数
-  * @return {object} 删除结果
+  * @return {object} 添加结果
  */
 const bulkAddPlatForm = async (params) => {
   let result = await DBHelper.bulkAddPlatForm(params)
   return result
+}
+
+/**
+  * 批量删除平台
+  * @method addScene
+  * @param  {object} params -平台参数
+  * @return {object} 添加结果
+ */
+const bulkDeletePlatForm = async (params) => {
+  let result = await DBHelper.bulkDeletePlatForm(params)
+  return result
+}
+
+/**
+  * 过滤平台数据
+  * @method filterPlatForms
+  * @param  {Array} platFormList 平台数据列表
+  * @param {Array} rows 行元素列表
+  * @return {Array} arrs 过滤后的平台数据列表
+ */
+const filterPlatForms = (platFormList, rows) => {
+  platFormList[0].forEach((name, index) => {
+    rows.forEach(ele => {
+      if (ele.name === name) {
+        ele.index = index
+      }
+    })
+  })
+  platFormList.shift()
+  let arrs = []
+  platFormList.forEach(platform => {
+    let data = {}
+    rows.forEach(ele => {
+      data[ele.key] = platform[ele.index]
+    })
+    arrs.push(data)
+  })
+  return arrs
 }
 
 module.exports = {
@@ -55,5 +93,7 @@ module.exports = {
   addPlatForm,
   updatePlatForm,
   findOnePlatForm,
-  bulkAddPlatForm
+  bulkAddPlatForm,
+  bulkDeletePlatForm,
+  filterPlatForms
 }

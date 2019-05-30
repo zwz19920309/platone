@@ -7,9 +7,10 @@ apiRouter.post('/getPlatFormList', platformCtrl.getPlatFormList)
 apiRouter.post('/addPlatForm', platformCtrl.addPlatForm)
 // 更新平台信息
 apiRouter.post('/updatePlatForm', platformCtrl.updatePlatForm)
-// 删除平台
+// 添加平台
 apiRouter.post('/bulkAddPlatForm', platformCtrl.bulkAddPlatForm)
-
+// 删除平台
+apiRouter.post('/bulkDeletePlatForm', platformCtrl.bulkDeletePlatForm)
 module.exports = router => {
   router.use('/admin/platform', apiRouter.routes(), apiRouter.allowedMethods())
 }
