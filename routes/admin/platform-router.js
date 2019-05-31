@@ -11,6 +11,7 @@ apiRouter.post('/updatePlatForm', platformCtrl.updatePlatForm)
 apiRouter.post('/bulkAddPlatForm', platformCtrl.bulkAddPlatForm)
 // 删除平台
 apiRouter.post('/bulkDeletePlatForm', platformCtrl.bulkDeletePlatForm)
+
 module.exports = router => {
   router.use('/admin/platform', apiRouter.routes(), apiRouter.allowedMethods())
 }

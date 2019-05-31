@@ -6,7 +6,12 @@ const DBHelper = require('../../common/db/db-helper')
   * @return {object}
  */
 const getPlatFormList = async (params) => {
-  let platFormList = await DBHelper.getPlatFormList(params)
+  let platFormList = {}
+  if (params.name) {
+    platFormList = await DBHelper.searchPlatFormByName(params)
+  } else {
+    platFormList = await DBHelper.getPlatFormList(params)
+  }
   return platFormList
 }
 /**
@@ -62,6 +67,17 @@ const bulkDeletePlatForm = async (params) => {
 }
 
 /**
+  * 通过名字查询
+  * @method addScene
+  * @param  {object} params -平台参数
+  * @return {object} 添加结果
+ */
+const searchPlatFormByName = async (params) => {
+  let result = await DBHelper.bulkDeletePlatForm(params)
+  return result
+}
+
+/**
   * 过滤平台数据
   * @method filterPlatForms
   * @param  {Array} platFormList 平台数据列表
@@ -95,5 +111,6 @@ module.exports = {
   findOnePlatForm,
   bulkAddPlatForm,
   bulkDeletePlatForm,
+  searchPlatFormByName,
   filterPlatForms
 }

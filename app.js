@@ -15,8 +15,8 @@ onerror(app)
 // 静态资源目录对于相对入口文件index.js的路径
 app.use(koastatic(path.join(__dirname, config.staticPath), { maxage: 7 * 86400 * 1000 }))
 app.use(cors({
-  // origin: '*',
-  origin: 'http://localhost:8080',
+  origin: '*',
+  // origin: 'http://localhost:8080',
   maxAge: 5,
   credentials: true,
   allowMethods: ['GET', 'POST', 'DELETE'],

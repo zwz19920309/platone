@@ -15,11 +15,11 @@ class DBHelper {
     return { rows: rows, total: total[0].total }
   }
   static async addPlatForm(params) {
-    let [rows] = await DataDb.query('INSERT INTO platform SET ?', [{ name: params.name, pips: params.pips, foreign_currency: params.foreign_currency, lows_level: params.lows_level, lever_level: params.lever_level, supervise_level: params.supervise_level, stars: params.stars }])
+    let [rows] = await DataDb.query('INSERT INTO platform SET ?', [{ name: params.name, pips: params.pips, foreign_currency: params.foreign_currency, range_level: params.range_level, lows_level: params.lows_level, lever_level: params.lever_level, supervise_level: params.supervise_level, stars: params.stars, cont: params.cont, icon: params.icon }])
     return rows
   }
   static async updatePlatForm(params) {
-    let [rows] = await DataDb.query('UPDATE platform SET ? WHERE id = ?', [{ name: params.name, pips: params.pips, foreign_currency: params.foreign_currency, lows_level: params.lows_level, lever_level: params.lever_level, supervise_level: params.supervise_level, stars: params.stars }, params.id])
+    let [rows] = await DataDb.query('UPDATE platform SET ? WHERE id = ?', [{ name: params.name, pips: params.pips, foreign_currency: params.foreign_currency, range_level: params.range_level, lows_level: params.lows_level, lever_level: params.lever_level, supervise_level: params.supervise_level, stars: params.stars, cont: params.cont }, params.id])
     return rows
   }
   static async findOnePlatForm(params) {
@@ -28,12 +28,18 @@ class DBHelper {
     return res
   }
   static async bulkAddPlatForm(params) {
-    let [rows] = await DataDb.query('INSERT INTO platform (name, pips, foreign_currency, lows_level, lever_level, supervise_level, stars) VALUES ?', [params])
+    let [rows] = await DataDb.query('INSERT INTO platform (name, pips, foreign_currency, range_level, lows_level, lever_level, supervise_level, stars, cont) VALUES ?', [params])
     return rows
   }
   static async bulkDeletePlatForm(params) {
     let [rows] = await DataDb.query('UPDATE platform SET remove = 1 WHERE id in (?)', [params.ids])
     return rows
+  }
+
+  static async searchPlatFormByName(params) {
+    let [rows] = await DataDb.query('SELECT * from platform WHERE remove = 0 and name like ? limit ?, ? ', [('%' + params.name + '%'), (params.page - 1) * params.pageSize, params.pageSize])
+    let [total] = await DataDb.query('SELECT count(1) as total FROM platform WHERE  remove = 0 and name like ? ', [('%' + params.name + '%')])
+    return { rows: rows, total: total[0].total }
   }
 }
 

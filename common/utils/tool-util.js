@@ -1,10 +1,15 @@
 
-const validator = {
-  isNum: (num) => {
-    return (typeof parseInt(num) === 'number' && !isNaN(num) && num >= 0)
+const config = require('../../config/config')
+const prefixImgUrl = (imgs) => {
+  if (imgs instanceof Array) {
+    imgs.forEach(img => {
+      img.icon = config.base + '/' + img.icon
+    })
+  } else {
+    imgs.icon = config.base + '/' + imgs.icon
   }
 }
 
 module.exports = {
-  validator
+  prefixImgUrl
 }
